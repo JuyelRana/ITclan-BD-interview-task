@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\IdeaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,13 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    return Auth::check() ? view('home') : redirect()->route('login');
+    return Auth::check() ? redirect()->route('ideas.index') : redirect()->route('login');
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('ideas', IdeaController::class)->middleware('auth');
