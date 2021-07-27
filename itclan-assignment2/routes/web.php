@@ -23,3 +23,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::resource('ideas', IdeaController::class)->middleware('auth');
+
+Route::get('/email-test', function () {
+    $details['email'] = 'mjuyelrana@gmail.com';
+    $details['name'] = 'Md Juyel Rana';
+
+    dispatch(new \App\Jobs\SendAddIdeaEmailJob($details));
+
+    dd('Send Email Successfully');
+});

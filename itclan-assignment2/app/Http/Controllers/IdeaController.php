@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IdeaRequest;
+use App\Jobs\SendAddIdeaEmailJob;
 use App\Models\Idea;
 use Illuminate\Http\Request;
 
@@ -39,6 +40,10 @@ class IdeaController extends Controller
     public function store(IdeaRequest $request)
     {
         $idea = Idea::create($request->all());
+
+        $details['name'] = $idea->name;
+        $details['email'] = $idea->email;
+        dispatch(new SendAddIdeaEmailJob($details));
 
         return redirect()->route('ideas.index')->with('message', 'A new Idea added successfully!');
     }
