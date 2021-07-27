@@ -17,7 +17,8 @@ class IdeaController extends Controller
     public function index()
     {
         $ideas = Idea::latest()->get();
-        return view('ideas.index', compact('ideas'));
+        $players = Idea::where('is_win', 2)->get();
+        return view('ideas.index', compact('ideas', 'players'));
     }
 
     /**
@@ -43,7 +44,7 @@ class IdeaController extends Controller
 
         $details['name'] = $idea->name;
         $details['email'] = $idea->email;
-        dispatch(new SendAddIdeaEmailJob($details));
+//        dispatch(new SendAddIdeaEmailJob($details));
 
         return redirect()->route('ideas.index')->with('message', 'A new Idea added successfully!');
     }
