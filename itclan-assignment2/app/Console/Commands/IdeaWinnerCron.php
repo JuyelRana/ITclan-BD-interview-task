@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendWinnerMailJob;
 use App\Models\Idea;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -53,6 +54,10 @@ class IdeaWinnerCron extends Command
                 }
 
                 foreach ($secondWinners as $secondWinner) {
+                    $details['name'] = $secondWinner->name;
+                    $details['email'] = $secondWinner->email;
+                    $details['msg'] = "You are selected for second round!";
+                    dispatch(new SendWinnerMailJob($details));
                     $secondWinner->update(['is_win' => 1]);
                 }
 
@@ -64,6 +69,10 @@ class IdeaWinnerCron extends Command
                 }
 
                 foreach ($finalWinners as $finalWinner) {
+                    $details['name'] = $finalWinner->name;
+                    $details['email'] = $finalWinner->email;
+                    $details['msg'] = "You are champion!";
+                    dispatch(new SendWinnerMailJob($details));
                     $finalWinner->update(['is_win' => 1]);
                 }
 
@@ -79,6 +88,10 @@ class IdeaWinnerCron extends Command
                     }
 
                     foreach ($firstWinners as $firstWinner) {
+                        $details['name'] = $firstWinner->name;
+                        $details['email'] = $firstWinner->email;
+                        $details['msg'] = "You are selected for first round!";
+                        dispatch(new SendWinnerMailJob($details));
                         $firstWinner->update(['is_win' => 1]);
                     }
 
