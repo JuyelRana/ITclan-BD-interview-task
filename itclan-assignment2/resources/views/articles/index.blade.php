@@ -50,7 +50,7 @@
     <script>
 
         setTimeout(() => {
-            $.get('articles_url', function (response, status) {
+            $.get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=0b4c3b2699bf43ccbb8f807f7f6ef24d', function (response, status) {
                 if (response.status === 'ok') {
                     let tableRows = response.articles.map((article, index) => {
                         return "<tr>"
