@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IdeaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::resource('ideas', IdeaController::class)->middleware('auth');
+
+Route::get('/articles', [HomeController::class, 'articles'])->name('articles')->middleware('auth');
 
 Route::get('/email-test', function () {
     $details['email'] = 'mjuyelrana@gmail.com';
